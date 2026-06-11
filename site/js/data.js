@@ -420,7 +420,7 @@ cave_rect = pygame.Rect(200, 54, 50, 55)
               ],
               step: "04_colisiones.py",
               code: `    # Dibujar el rect rojo de depuración de la cueva
-    # ... (sección de dibujo, después del fondo)
+    # ... (al final de la sección de dibujo, después de dibujar al jugador)
     pygame.draw.rect(screen, "red", cave_rect, 3)`,
             },
             {
@@ -474,11 +474,15 @@ cave_text = font.render("¡Una cueva misteriosa!", True, "white")`,
             {
               title: "Mostrar el texto solo cerca de la cueva",
               content: [
-                "Guardamos en `near_cave` si el jugador está tocando la zona de la cueva.",
+                "Creamos la bandera `near_cave` **antes del ciclo** (para que exista desde el primer frame) y dentro del ciclo guardamos si el jugador está tocando la zona de la cueva.",
                 "Solo dibujamos `cave_text` cuando `near_cave` es `True`. Ya no necesitamos el rectángulo rojo de depuración, así que lo comentamos.",
               ],
               step: "05_texto.py",
-              code: `    # Revisar si el jugador está tocando la entrada de la cueva
+              code: `# Bandera para saber si el jugador está cerca de la cueva
+# ... (antes del ciclo principal)
+near_cave = False
+
+    # Revisar si el jugador está tocando la entrada de la cueva
     # ... (dentro del ciclo principal, sección de lógica)
     player_rect = pygame.Rect(player_x, player_y, 48, 48)
     if player_rect.colliderect(cave_rect):
@@ -689,6 +693,10 @@ exit_rect = pygame.Rect(0, 250, 40, 120)
     if current_area == AREA_OVERWORLD:
         screen.blit(background_img, (0, 0))
         screen.blit(player_img, (player_x, player_y))
+
+        # pygame.draw.rect(screen, "red", cave_rect, 3)  # ya no lo necesitamos
+
+        # Mostrar el aviso de la cueva si el jugador está cerca
         if near_cave:
             screen.blit(cave_text, (220, 130))
     elif current_area == AREA_DUNGEON:
@@ -918,7 +926,7 @@ moving = False`,
               title: "Avanzar el frame y dibujar",
               content: [
                 "Si el jugador se mueve, acumulamos `dt` en `frame_timer`; al superar `FRAME_TIME` (0.15s), pasamos al siguiente frame con `% 2`.",
-                "Si no se mueve, mostramos siempre el frame 0 (de pie). Finalmente dibujamos `frames[player_dir][frame_index]` en vez del sprite estático.",
+                "Si no se mueve, mostramos siempre el frame 0 (de pie). Finalmente dibujamos `frames[player_dir][frame_index]` en vez del sprite estático — **en las dos áreas**: overworld y mazmorra.",
               ],
               step: "10_animaciones.py",
               code: `    # Animación: avanzar de frame solo si el jugador se está moviendo
@@ -935,6 +943,11 @@ moving = False`,
 
     elif current_area == AREA_OVERWORLD:
         screen.blit(background_img, (0, 0))
+        screen.blit(frames[player_dir][frame_index], (player_x, player_y))  # modificado
+
+    # ... (y también en el dibujo de la mazmorra)
+    elif current_area == AREA_DUNGEON:
+        # ...
         screen.blit(frames[player_dir][frame_index], (player_x, player_y))  # modificado`,
             },
             {
