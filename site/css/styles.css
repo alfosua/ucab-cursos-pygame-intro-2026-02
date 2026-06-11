@@ -128,6 +128,10 @@ img {
   color: var(--slate-500);
 }
 
+.brand-by a {
+  flex-shrink: 0;
+}
+
 .brand-by img {
   height: 1.5rem;
   width: auto;
@@ -1396,12 +1400,18 @@ code-window {
 @media (max-width: 640px) {
   .site-header__inner {
     padding: 0.6rem 1rem;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
   }
   .brand-text h1 {
     font-size: 0.85rem;
   }
-  .site-header__progress .progress-label {
-    display: none;
+  .site-header__progress {
+    width: 100%;
+  }
+  .progress-track {
+    flex: 1;
+    width: auto;
   }
   main.home {
     padding: 1.25rem;

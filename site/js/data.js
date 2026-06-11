@@ -210,6 +210,18 @@ while running:
 pygame.quit()`,
             },
             {
+              title: "Ejecutar el juego desde la terminal",
+              content: [
+                "Guarda el archivo como `main.py` dentro de tu carpeta de proyecto.",
+                "Abre una terminal en esa carpeta y ejecuta Python para abrir la ventana del juego.",
+              ],
+              terminal: `$ python main.py
+
+# Si estás usando los archivos del curso:
+$ cd game
+$ python 01_inicio.py`,
+            },
+            {
               title: "¡Tu primer programa de Pygame!",
               content: [
                 "Si ejecutas `main.py` deberías ver una ventana verde de 800x600.",
@@ -426,7 +438,7 @@ cave_rect = pygame.Rect(200, 54, 50, 55)
             {
               title: "Pruébalo tú mismo",
               content: [
-                "Mueve el rectángulo verde con las flechas del teclado (o arrástralo con el mouse) y observa cuándo `colliderect()` devuelve `True`.",
+                "Mueve el rectángulo verde con las flechas del teclado (o arrástralo con el mouse o el dedo) y observa cuándo `colliderect()` devuelve `True`.",
               ],
               interactive: "collision-demo",
             },

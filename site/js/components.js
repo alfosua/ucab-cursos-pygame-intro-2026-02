@@ -173,8 +173,8 @@ class DemoCollision extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
       <div class="demo">
-        <div class="demo__hint">Haz clic para interactuar — usa las flechas para mover el rectángulo verde</div>
-        <canvas width="640" height="480" style="width:100%;max-width:480px;aspect-ratio:4/3;"></canvas>
+        <div class="demo__hint">Arrastra el rectángulo verde con el mouse o el dedo — o haz clic y usa las flechas</div>
+        <canvas width="640" height="480" style="width:100%;max-width:480px;aspect-ratio:4/3;touch-action:none;"></canvas>
         <div class="demo__readout">colliderect() == <strong id="result">False</strong></div>
       </div>
     `;
@@ -195,18 +195,27 @@ class DemoCollision extends HTMLElement {
     });
 
     let dragging = false;
-    this.canvas.parentElement.addEventListener("mousedown", () => { dragging = true; });
-    window.addEventListener("mouseup", () => { dragging = false; });
-    this.canvas.parentElement.addEventListener("mousemove", (e) => {
+    this.canvas.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      this.canvas.setPointerCapture(e.pointerId);
+      this.movePlayerTo(e);
+    });
+    this.canvas.addEventListener("pointerup", () => { dragging = false; });
+    this.canvas.addEventListener("pointercancel", () => { dragging = false; });
+    this.canvas.addEventListener("pointermove", (e) => {
       if (!dragging) return;
-      const rect = this.canvas.getBoundingClientRect();
-      const scaleX = this.canvas.width / rect.width;
-      const scaleY = this.canvas.height / rect.height;
-      this.player.x = (e.clientX - rect.left) * scaleX - this.player.w / 2;
-      this.player.y = (e.clientY - rect.top) * scaleY - this.player.h / 2;
-      this.draw();
+      this.movePlayerTo(e);
     });
 
+    this.draw();
+  }
+
+  movePlayerTo(e) {
+    const rect = this.canvas.getBoundingClientRect();
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+    this.player.x = (e.clientX - rect.left) * scaleX - this.player.w / 2;
+    this.player.y = (e.clientY - rect.top) * scaleY - this.player.h / 2;
     this.draw();
   }
 
