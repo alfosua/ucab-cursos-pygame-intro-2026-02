@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+*~
+
+# Editores
+.vscode/
+.idea/
+
+# Logs y temporales
+*.log
+*.tmp
+
+# Hojas de sprites originales descargadas (los assets finales ya están recortados en game/assets/)
+game/assets/raw/
+
+# Scrape del sitio de referencia: solo se versionan las notas de diseño y la captura
+reference/*
+!reference/DESIGN-NOTES.md
+!reference/shots/
